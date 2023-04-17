@@ -1,1 +1,1 @@
-0x02. Shell, I/O
+0x02-shell_redirections
