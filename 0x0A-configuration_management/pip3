@@ -1,7 +1,0 @@
-exec 
-{ 'install_flask':
-  command => '/usr/bin/pip3 install flask',
-  path    => '/usr/local/bin:/usr/bin',
-  unless  => '/usr/bin/pip3 show flask',
-  require => Package['python3-pip'],
-}
