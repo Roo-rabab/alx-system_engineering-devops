@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Setup custom http response header
+
+# Install and configure nginx web server
+sudo apt update
+sudo apt install -y nginx
+
+# Setup custom http response header.
+sudo sed -i "s/listen \[::\]:80 default_server;/&\n\tadd_header X-Served-By $HOSTNAME;/" /etc/nginx/sites-enabled/default
+
+sudo service nginx restart
