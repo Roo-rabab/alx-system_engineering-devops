@@ -2,8 +2,8 @@
 # Replace the API and APP keys below
 # with the ones for your account
 
-api_key="86ebb4bf4f78543f1a8320d468da92c1"
-app_key="1c2fe63d390a682a26e214f08f16379c"
+api_key="1c2fe63d390a682a26e214f08f16379c"
+app_key="86ebb4bf4f78543f1a8320d468da92c1"
 
 curl -X POST -H "Content-type: application/json" \
      -d '{
