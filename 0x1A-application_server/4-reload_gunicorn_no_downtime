@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Gracefully reloads Gunicorn.
+# Terminate gunicorn processes gracefully by sending HUP signal to master
+# process.
+
+sudo kill -HUP "$(pgrep -o gunicorn)"
+
