@@ -1,5 +1,3 @@
-#!/bin/bash
-
-kill -HUP $(cat /path/to/gunicorn.pid)
-sleep 10
-/path/to/gunicorn -c /path/to/gunicorn_config.py myapp:app  
+#!/usr/bin/env bash
+# A script that reloads Gunicorn in a graceful way
+pkill -HUP gunicorn 
