@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 
-# Reload Gunicorn using systemctl
-systemctl reload gunicorn
+# Find the main PID of Gunicorn using systemctl
+main_pid=$(systemctl show -p MainPID --value gunicorn)
+
+# Reload Gunicorn by sending HUP signal to the main process
+kill -HUP "$main_pid"
