@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
-# Gracefully reloads Gunicorn.
-# Terminate gunicorn processes gracefully by sending HUP signal to master
-# process.
 
-sudo kill -HUP "$(pgrep -o gunicorn)"
+# Function to check if Gunicorn is running
+is_gunicorn_running() {
+    pgrep gunicorn > /dev/null
+}
+
+# Function to gracefully reload Gunicorn
+graceful_reload_gunicorn() {
+    echo "Reloading Gunicorn without downtime..."
+    kill -HUP $(pgrep gunicorn)
+    echo "Gunicorn reloaded successfully."
+}
+
+# Check if Gunicorn is running before proceeding
+if is_gunicorn_running; then
+    graceful_reload_gunicorn
+else
+    echo "Gunicorn is not running. Start it first."
+fi
