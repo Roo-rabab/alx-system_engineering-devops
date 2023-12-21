@@ -37,4 +37,3 @@ ps auxf | grep "gunicorn"
 
 # Display a message indicating successful reload
 echo "Gunicorn reloaded gracefully without downtime."
-
