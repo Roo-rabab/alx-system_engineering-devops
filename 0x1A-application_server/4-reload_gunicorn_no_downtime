@@ -1,3 +1,5 @@
-#!/usr/bin/env bash
-# Gracefully reloads Gunicorn
-systemctl status gunicorn | grep -oE 'Main PID: [0-9]+' | cut -d ' ' -f3 | xargs kill -HUP
+#!/bin/bash
+
+kill -HUP $(cat /path/to/gunicorn.pid)
+sleep 10
+/path/to/gunicorn -c /path/to/gunicorn_config.py myapp:app  
