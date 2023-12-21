@@ -1,3 +1,24 @@
-#!/usr/bin/env bash
-# Reloads Gunicorn
-systemctl status gunicorn | grep -oE 'Main PID: [0-9]+' | cut -d ' ' -f3 | xargs kill -HUP
+#!/bin/bash
+
+# Check if Gunicorn is running
+if ! pgrep -f "gunicorn" > /dev/null; then
+    echo "Gunicorn is not running. Exiting."
+    exit 1
+fi
+
+# Find the Gunicorn master process ID
+master_pid=$(pgrep -o -f "gunicorn.*--workers")
+
+# Print the current Gunicorn processes
+echo "Before reload:"
+ps auxf | grep gunicorn
+
+# Send a HUP signal to the Gunicorn master process for a graceful reload
+kill -HUP "$master_pid"
+
+# Wait for a few seconds to allow workers to gracefully finish processing requests
+sleep 5
+
+# Print the Gunicorn processes after reload
+echo "After reload:"
+ps auxf | grep gunicorn
