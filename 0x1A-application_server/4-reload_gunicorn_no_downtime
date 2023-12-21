@@ -1,3 +1,40 @@
 #!/usr/bin/env bash
-# Reloads Gunicorn
-systemctl status gunicorn | grep -oE 'Main PID: [0-9]+' | cut -d ' ' -f3 | xargs kill -HUP
+
+# Function to display usage information
+display_usage() {
+    echo "Usage: $0"
+    echo "Reload Gunicorn gracefully without downtime."
+}
+
+# Check for the correct number of arguments
+if [ "$#" -ne 0 ]; then
+    display_usage
+    exit 1
+fi
+
+# Find the process IDs (PIDs) of Gunicorn instances
+gunicorn_pids=$(pgrep -f "gunicorn")
+
+# Check if Gunicorn is running
+if [ -z "$gunicorn_pids" ]; then
+    echo "Error: Gunicorn is not running."
+    exit 1
+fi
+
+# Display the current Gunicorn processes
+echo "Before reload:"
+ps auxf | grep "gunicorn"
+
+# Send a signal to the master Gunicorn process for a graceful reload
+kill -s HUP $gunicorn_pids
+
+# Wait for a few seconds to allow workers to finish processing requests
+sleep 5
+
+# Display the updated Gunicorn processes
+echo "After reload:"
+ps auxf | grep "gunicorn"
+
+# Display a message indicating successful reload
+echo "Gunicorn reloaded gracefully without downtime."
+
