@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
-# Gracefully reloads Gunicorn
-systemctl status gunicorn | grep -oE 'Main PID: [0-9]+' | cut -d ' ' -f3 | xargs kill -HUP
+# Script for reloading Gunicorn without downtime
+
+# Get the PID of the Gunicorn master process
+master_pid=$(pgrep -f "gunicorn.*web_flask.0-hello_route:app")
+
+# Check if the master process is running
+if [ -n "$master_pid" ]; then
+    # Perform a graceful reload by sending a HUP signal to the master process
+    kill -HUP "$master_pid"
+    echo "Gunicorn gracefully reloaded"
+else
+    echo "Gunicorn is not running"
+fi
