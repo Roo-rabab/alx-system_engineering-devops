@@ -1,30 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Gracefully reloads Gunicorn.
 
-# Get the Gunicorn master process ID
-master_pid=$(pgrep -f 'gunicorn.*master')
-
-if [ -z "$master_pid" ]; then
-    echo "Gunicorn master process not found."
-    exit 1
-fi
-
-# Get the worker process IDs
-worker_pids=$(pgrep -f 'gunicorn.*worker')
-
-# Display the current Gunicorn processes
-echo "Current Gunicorn processes:"
-ps auxf | grep gunicorn
-
-# Send a graceful reload signal to the master process
-echo "Sending graceful reload signal to Gunicorn master (PID: $master_pid)"
-kill -s HUP $master_pid
-
-# Wait for the workers to finish processing requests before shutting down
-echo "Waiting for workers to finish processing requests..."
-wait $worker_pids
-
-# Display the updated Gunicorn processes
-echo "Updated Gunicorn processes:"
-ps auxf | grep gunicorn
-
-echo "Gunicorn reloaded gracefully."
+ps aux | grep gunicorn | awk '{ print $2 }' | xargs kill -HUP
