@@ -1,4 +1,4 @@
+User
 #!/usr/bin/env bash
-
 # Restart Gunicorn gracefully
-pkill -F -HUP -x gunicorn 
+pkill -HUP gunicorn
